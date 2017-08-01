@@ -27,8 +27,9 @@ RSpec.describe 'Todos Api', type: :request do
       before { post '/todos', params: valid_params }
 
       it 'creates a todo' do
+        # binding.pry
         expect(json).not_to be_empty
-        expect(json[:title]).to eq(valid_params[:title])
+        expect(json['title']).to eq(valid_params[:title])
       end
 
       it 'returns status code 201' do
@@ -44,7 +45,7 @@ RSpec.describe 'Todos Api', type: :request do
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to match(/Title can't be blank/)
+        expect(json['message']).to match(/Title can't be blank/)
       end
     end
   end
@@ -56,7 +57,7 @@ RSpec.describe 'Todos Api', type: :request do
     context 'when the record exist' do
       it 'returns the todo' do
         expect(json).not_to be_empty
-        expect(json[:id]).to eq(todo_id)
+        expect(json['id']).to eq(todo_id)
       end
 
       it 'returns status code 200' do
@@ -68,7 +69,7 @@ RSpec.describe 'Todos Api', type: :request do
       let(:todo_id) { 100 }
 
       it 'returns not found message' do
-        expect(response.body).to match(/Could't find Todo/)
+        expect(json['message']).to match(/Couldn't find Todo with 'id'=100/)
       end
 
       it 'returns status code 404' do
@@ -80,17 +81,17 @@ RSpec.describe 'Todos Api', type: :request do
 
    #text suite for PUT /todos/:id
   describe 'PUT /todos/:id' do
-    let!(:params) { { title: 'Updated React' } }
+    let!(:valid_params) { { title: 'Updated React' } }
 
     context 'when the record exist' do
-      before { put "/todos/#{todo_id}", params: params }
+      before { put "/todos/#{todo_id}", params: valid_params }
 
       it 'updates the todo record' do
-        expect(json[:title]).to eq(params[:title])
+        expect(json['title']).to eq(valid_params[:title])
       end
 
-      it 'returns status code 204' do
-        expect(response).to have_http_status(204)
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
       end
     end
   end
