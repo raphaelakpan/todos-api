@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   post '/auth/login' => 'authentication#authenticate'
 
   post '/signup', to: 'users#create'
+
+  root 'index#index'
 end
