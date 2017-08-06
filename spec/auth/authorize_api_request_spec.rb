@@ -3,12 +3,10 @@ require 'rails_helper'
 RSpec.describe AuthorizeApiRequest do
   # Create test user
   let(:user) { create(:user) }
-  # Mock `Authorization` header
-  let(:header) { { 'Authorization' => token_generator(user.id) } }
   # Invalid request subject
-  subject(:invalid_request_obj) { described_class.new({}) }
+  subject(:invalid_request_obj) { described_class.new(invalid_headers) }
   # Valid request subject
-  subject(:request_obj) { described_class.new(header) }
+  subject(:request_obj) { described_class.new(valid_headers) }
 
   # Test Suite for AuthorizeApiRequest#call
   # This is our entry point into the service class

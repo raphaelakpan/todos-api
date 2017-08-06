@@ -5,18 +5,18 @@ RSpec.describe 'Authentication' do
     # define a user
     let!(:user) { create(:user) }
     #set headers for authorization
-    let(:headers) { valid_headers.except['Authorization'] }
+    let(:headers) { valid_headers.except('Authorization') }
     # define valid credentials
     let(:valid_credentials) do
       {
-        email: user.email
+        email: user.email,
         password: user.password
       }.to_json
     end
     # define invalid credentials
     let(:invalid_credentials) do
       {
-        email: Faker::Internet.email
+        email: Faker::Internet.email,
         password: Faker::Internet.password
       }.to_json
     end
