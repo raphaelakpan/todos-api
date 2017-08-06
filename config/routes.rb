@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   end
 
   post '/auth/login' => 'authentication#authenticate'
+
+  post '/signup', to: 'users#create'
 end
