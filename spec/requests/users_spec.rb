@@ -6,9 +6,9 @@ RSpec.describe 'Users API', type: :request do
   let(:valid_attributes) { attributes_for(:user, password_confirmation: user.password) }
 
   describe 'POST /signup' do
-    context 'when valid request' do
-      before { post '/signup', params: valid_attributes.to_json, headers: headers }
+    before { post '/signup', params: valid_attributes.to_json, headers: headers }
 
+    context 'when valid request' do
       it 'it creates a user' do
         expect(json['email']).to eq(valid_attributes[:email])
       end
@@ -26,8 +26,20 @@ RSpec.describe 'Users API', type: :request do
       end
     end
 
+    context 'when email already exists' do
+      before { post '/signup', params: valid_attributes.to_json, headers: headers }
+
+      it 'returns error message' do
+        expect(json['message']).to match(/Validation failed: Email has already been taken/)
+      end
+
+      it 'returns 422 status code' do
+        expect(response).to have_http_status(422)
+      end
+    end
+
     context 'when invalid request' do
-      before { post '/signup', params: {}, headers: headers }
+      let(:valid_attributes) { {} }
 
       it 'does not create a user' do
         expect(json['email']).to be_nil

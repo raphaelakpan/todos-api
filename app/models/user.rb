@@ -7,4 +7,5 @@ class User < ApplicationRecord
 
   # model validations
   validates :name, :email, :password_digest, presence: true
+  validates :email, uniqueness: true
 end
