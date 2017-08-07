@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
   private
 
   def set_todo
-    @todo = Todo.find(params[:todo_id])
+    @todo = @current_user.todos.find(params[:todo_id])
   end
 
   def set_item
