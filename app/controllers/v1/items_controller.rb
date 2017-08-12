@@ -4,7 +4,7 @@ module V1
     before_action :set_item, except: [:index, :create]
 
     def index
-      json_response(@todo.items)
+      json_response(@todo.items.paginate(page: params[:page], per_page: params[:size] || 10))
     end
 
     def show
