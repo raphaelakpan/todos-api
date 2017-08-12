@@ -3,7 +3,7 @@ module V1
     before_action :set_todo, except: [:index, :create]
 
     def index
-      @todos = @current_user.todos
+      @todos = @current_user.todos.paginate(page: params[:page], per_page: params[:size] || 20)
       json_response(@todos)
     end
 
